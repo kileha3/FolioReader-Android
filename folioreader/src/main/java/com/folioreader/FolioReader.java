@@ -31,6 +31,7 @@ public class FolioReader {
     private Context context;
     private Config config;
     private boolean overrideConfig;
+    private boolean secureReader = false;
     private OnHighlightListener onHighlightListener;
     private ReadPositionListener readPositionListener;
     private OnClosedListener onClosedListener;
@@ -168,6 +169,8 @@ public class FolioReader {
         intent.putExtra(Config.INTENT_CONFIG, config);
         intent.putExtra(Config.EXTRA_OVERRIDE_CONFIG, overrideConfig);
         intent.putExtra(FolioActivity.EXTRA_READ_POSITION, readPosition);
+        intent.putExtra(FolioActivity.EXTRA_READ_POSITION, readPosition);
+        intent.putExtra(FolioActivity.EXTRA_SECURE_READER, secureReader);
 
         if (rawId != 0) {
             intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH, rawId);
@@ -194,6 +197,11 @@ public class FolioReader {
     public FolioReader setConfig(Config config, boolean overrideConfig) {
         this.config = config;
         this.overrideConfig = overrideConfig;
+        return singleton;
+    }
+
+    public FolioReader setSecureReader(boolean secureReader){
+        this.secureReader = secureReader;
         return singleton;
     }
 

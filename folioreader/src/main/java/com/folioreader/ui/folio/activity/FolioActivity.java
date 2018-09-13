@@ -96,6 +96,7 @@ public class FolioActivity
     public static final String INTENT_EPUB_SOURCE_PATH = "com.folioreader.epub_asset_path";
     public static final String INTENT_EPUB_SOURCE_TYPE = "epub_source_type";
     public static final String EXTRA_READ_POSITION = "com.folioreader.extra.READ_POSITION";
+    public static final String EXTRA_SECURE_READER = "com.folioreader.extra.SECURE_READER";
     private static final String BUNDLE_READ_POSITION_CONFIG_CHANGE = "BUNDLE_READ_POSITION_CONFIG_CHANGE";
     private static final String BUNDLE_DISTRACTION_FREE_MODE = "BUNDLE_DISTRACTION_FREE_MODE";
     public static final String EXTRA_SEARCH_ITEM = "EXTRA_SEARCH_ITEM";
@@ -231,6 +232,12 @@ public class FolioActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boolean secureReader =  getIntent().getBooleanExtra(FolioActivity.EXTRA_SECURE_READER,
+                false);
+        if(secureReader){
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                    WindowManager.LayoutParams.FLAG_SECURE);
+        }
         handler = new Handler();
         density = getResources().getDisplayMetrics().density;
         LocalBroadcastManager.getInstance(this).registerReceiver(closeBroadcastReceiver,
