@@ -144,6 +144,7 @@ public class FolioPageFragment
     private Config mConfig;
     private String mBookId;
     public SearchItem searchItemVisible;
+    private FolioReader folioReader;
 
     public static FolioPageFragment newInstance(int position, String bookTitle, Link spineRef, String bookId) {
         FolioPageFragment fragment = new FolioPageFragment();
@@ -166,7 +167,7 @@ public class FolioPageFragment
             mActivityCallback = (FolioActivityCallback) getActivity();
 
         EventBus.getDefault().register(this);
-
+        folioReader = FolioReader.get();
         mPosition = getArguments().getInt(KEY_FRAGMENT_FOLIO_POSITION);
         mBookTitle = getArguments().getString(KEY_FRAGMENT_FOLIO_BOOK_TITLE);
         mEpubFileName = getArguments().getString(KEY_FRAGMENT_EPUB_FILE_NAME);
@@ -933,16 +934,17 @@ public class FolioPageFragment
         view.setY(y);
         final QuickAction quickAction =
                 new QuickAction(getActivity(), QuickAction.HORIZONTAL);
-        quickAction.addActionItem(new ActionItem(ACTION_ID_COPY,
-                getString(R.string.copy)));
-        quickAction.addActionItem(new ActionItem(ACTION_ID_HIGHLIGHT,
-                getString(R.string.highlight)));
+        if(!folioReader.isSecureReader()){
+            quickAction.addActionItem(new ActionItem(ACTION_ID_COPY,
+                    getString(R.string.copy)));
+            quickAction.addActionItem(new ActionItem(ACTION_ID_SHARE,
+                    getString(R.string.share)));
+        }
+        quickAction.addActionItem(new ActionItem(ACTION_ID_HIGHLIGHT, getString(R.string.highlight)));
         if (!mSelectedText.trim().contains(" ")) {
             quickAction.addActionItem(new ActionItem(ACTION_ID_DEFINE,
                     getString(R.string.define)));
         }
-        quickAction.addActionItem(new ActionItem(ACTION_ID_SHARE,
-                getString(R.string.share)));
         quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
             @Override
             public void onItemClick(QuickAction source, int pos, int actionId) {

@@ -229,6 +229,10 @@ public class FolioReader {
         new SaveReceivedHighlightTask(onSaveHighlight, highlights).execute();
     }
 
+    public boolean isSecureReader(){
+        return secureReader;
+    }
+
     /**
      * Closes all the activities related to FolioReader.
      * After closing all the activities of FolioReader, callback can be received in
